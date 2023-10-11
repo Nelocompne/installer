@@ -82,9 +82,9 @@ curl_install() {
       echo -e "\033[1;31m\033[1mERROR:\033[0m beta type is not true or false.\nExiting."
     fi
     if [[ -z $CURL_TAG ]];then 
-      curl -o /tmp/$SING_VERSION.tar.gz https://ghproxy.com/https://github.com/SagerNet/sing-box/releases/latest/download/$SING_VERSION.tar.gz
+      curl -o /tmp/$SING_VERSION.tar.gz -L https://github.com/SagerNet/sing-box/releases/latest/download/$SING_VERSION.tar.gz
     else
-      curl -o /tmp/$SING_VERSION.tar.gz https://ghproxy.com/https://github.com/SagerNet/sing-box/releases/download/v$CURL_TAG/$SING_VERSION.tar.gz
+      curl -o /tmp/$SING_VERSION.tar.gz -L https://github.com/SagerNet/sing-box/releases/download/v$CURL_TAG/$SING_VERSION.tar.gz
     fi
     tar -xzf /tmp/$SING_VERSION.tar.gz -C /tmp
     cp -rf /tmp/$SING_VERSION/sing-box $binfile
