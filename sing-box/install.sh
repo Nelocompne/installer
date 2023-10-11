@@ -110,6 +110,7 @@ Try to use \"--type=go\" to install\
 
 main() {
   mkdir -p $bindir
+  # on openwrt : opkg update && opkg install grep
   identify_the_operating_system_and_architecture
   curl_install
 
