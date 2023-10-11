@@ -1,4 +1,6 @@
 #!/bin/sh
+# fork https://github.com/chise0713/sing-box-install
+
 set -e
 # Initialize variables
 beta=false
@@ -90,7 +92,7 @@ curl_install() {
     cp -rf /tmp/$SING_VERSION/sing-box $binfile
     chmod +x $binfile
     echo -e "\
-Installed: binfile\
+Installed: $binfile\
 "
   else
     echo -e "\
@@ -110,6 +112,13 @@ main() {
   exit 0
 }
 
+uninstall() {
+  rm -rf $bindir
+    echo -e "\
+Removed: $bindir
+"
+  exit 0
+}
 
 help() {
   echo -e "usage: install.sh ACTION [OPTION]...
@@ -124,14 +133,6 @@ OPTION:
   install:
     --beta                    If it's specified, the scrpit will install latest Pre-release version of sing-box. 
                               If it's not specified, the scrpit will install latest release version by default.
-    --go                      If it's specified, the scrpit will use go to install sing-box. 
-                              If it's not specified, the scrpit will use curl by default.
-    --tag=[Tags]              sing-box Install tag, if you specified it, the script will use go to install sing-box, and use your custom tags. 
-                              If it's not specified, the scrpit will use offcial default Tags by default.
-    --cgo                     Set \`CGO_ENABLED\` environment variable to 1
-    --win                     If it's specified, the scrpit will use go to compile windows version of sing-box. 
-  remove:
-    --purge                   Remove all the sing-box files, include logs, configs, etc
 "
   exit 0
 }
