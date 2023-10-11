@@ -9,7 +9,7 @@ binfile=$bindir/sing-box
 
 
 identify_the_operating_system_and_architecture() {
-  if [[ "$(uname)" == 'MINGW64_NT-10.0-22621' ]]; then
+  if [[ "$(uname)" == 'Linux' ]]; then
     case "$(uname -m)" in
       'i386' | 'i686')
         MACHINE='386'
