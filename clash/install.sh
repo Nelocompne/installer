@@ -61,42 +61,7 @@ identify_the_operating_system_and_architecture() {
     fi
     # Do not combine this judgment condition with the following judgment condition.
     ## Be aware of Linux distribution like Gentoo, which kernel supports switch between Systemd and OpenRC.
-    if [[ -f /.dockerenv ]] || grep -q 'docker\|lxc' /proc/1/cgroup && [[ "$(type -P systemctl)" ]]; then
-      true
-    elif [[ -d /run/systemd/system ]] || grep -q systemd <(ls -l /sbin/init); then
-      true
-    else
-      echo "error: Only Linux distributions using systemd are supported."
-      exit 1
-    fi
-    if [[ "$(type -P apt)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='apt -y --no-install-recommends install'
-      PACKAGE_MANAGEMENT_REMOVE='apt purge'
-      package_provide_tput='ncurses-bin'
-    elif [[ "$(type -P dnf)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='dnf -y install'
-      PACKAGE_MANAGEMENT_REMOVE='dnf remove'
-      package_provide_tput='ncurses'
-    elif [[ "$(type -P yum)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='yum -y install'
-      PACKAGE_MANAGEMENT_REMOVE='yum remove'
-      package_provide_tput='ncurses'
-    elif [[ "$(type -P zypper)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='zypper install -y --no-recommends'
-      PACKAGE_MANAGEMENT_REMOVE='zypper remove'
-      package_provide_tput='ncurses-utils'
-    elif [[ "$(type -P pacman)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='pacman -Syu --noconfirm'
-      PACKAGE_MANAGEMENT_REMOVE='pacman -Rsn'
-      package_provide_tput='ncurses'
-     elif [[ "$(type -P emerge)" ]]; then
-      PACKAGE_MANAGEMENT_INSTALL='emerge -qv'
-      PACKAGE_MANAGEMENT_REMOVE='emerge -Cv'
-      package_provide_tput='ncurses'
-    else
-      echo "error: The script does not support the package manager in this operating system."
-      exit 1
-    fi
+    
   else
     echo "error: This operating system is not supported."
     exit 1
