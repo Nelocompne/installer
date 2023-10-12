@@ -1,5 +1,10 @@
 #!/bin/bash
 
+###
+# fork https://github.com/chise0713/sing-box-install
+# Thank you for the work results of user @ chise0713
+###
+
 set -e
 # Initialize variables
 beta=false
