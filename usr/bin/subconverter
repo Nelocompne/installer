@@ -1,0 +1,82 @@
+#!/bin/sh
+
+set -e
+
+rootdir=/home/subc
+bindir=$rootdir/subconverter
+binfile=$bindir/subconverter
+
+identify_the_operating_system_and_architecture() {
+  if [[ "$(uname)" == 'Linux' ]]; then
+    case "$(uname -m)" in
+      'i386' | 'i686')
+        MACHINE='386'
+        ;;
+      'amd64' | 'x86_64')
+        MACHINE='amd64'
+        ;;
+      'armv5tel')
+        MACHINE='arm'
+        ;;
+      'armv6l')
+        MACHINE='arm'
+        ;;
+      'armv7' | 'armv7l')
+        MACHINE='arm'
+        ;;
+      'armv8' | 'aarch64')
+        MACHINE='arm64'
+        ;;
+      'mips')
+        MACHINE='mips'
+        ;;
+      'mipsle')
+        MACHINE='mipsle'
+        ;;
+      'mips64')
+        MACHINE='mips64'
+        lscpu | grep -q "Little Endian" && MACHINE='mips64le'
+        ;;
+      'mips64le')
+        MACHINE='mips64le'
+        ;;
+      'ppc64')
+        MACHINE='ppc64'
+        ;;
+      'ppc64le')
+        MACHINE='ppc64le'
+        ;;
+      's390x')
+        MACHINE='s390x'
+        ;;
+      *)
+        echo "error: The architecture is not supported."
+        exit 1
+        ;;
+    esac
+    if [[ ! -f '/etc/os-release' ]]; then
+      echo "error: Don't use outdated Linux distributions."
+      exit 1
+    fi
+  else
+    echo "error: This operating system is not supported."
+    exit 1
+  fi
+}
+
+wget_install() {
+  [[ $MACHINE == amd64 ]] && CURL_MACHINE=linux64
+  [[ $MACHINE == arm ]] && CURL_MACHINE=armv7
+  [[ $MACHINE == arm64 ]] && CURL_MACHINE=aarch64
+  [[ $MACHINE == s390x ]] && CURL_MACHINE=s390x
+  wget https://github.com/MetaCubeX/subconverter/releases/download/Alpha/subconverter_$CURL_MACHINE.tar.gz -O /tmp/subconverter_$CURL_MACHINE.tar.gz
+  tar zxvf /tmp/subconverter.tar.gz -C $rootdir
+  chmod +x $binfile
+}
+
+rm -rf $rootdir
+mkdir -p $bindir
+identify_the_operating_system_and_architecture
+wget_install
+
+exec $binfile "$@"
