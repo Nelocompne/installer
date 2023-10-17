@@ -74,9 +74,13 @@ wget_install() {
   chmod +x $binfile
 }
 
-rm -rf $rootdir
-mkdir -p $bindir
-identify_the_operating_system_and_architecture
-wget_install
+if [ ! -d $rootdir ]; then
+  mkdir -p $rootdir
+fi
+
+if [ ! -f $binfile ]; then
+  identify_the_operating_system_and_architecture
+  wget_install
+fi
 
 exec $binfile "$@"
