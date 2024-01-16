@@ -82,19 +82,19 @@ curl_install() {
   [[ $MACHINE == s390x ]] && CURL_MACHINE=s390x
   if [[ $CURL_MACHINE == amd64 ]] || [[ $CURL_MACHINE == arm64 ]] || [[ $CURL_MACHINE == armv7 ]] || [[ $CURL_MACHINE == s390x ]]; then
     if [[ $beta == false ]];then
-      META_VERSION=$(curl https://api.github.com/repos/MetaCubeX/Clash.Meta/releases|grep -oP "clash\.meta-linux-$CURL_MACHINE-v\d+\.\d+\.\d+"| sort -Vru | head -n 1)
+      META_VERSION=$(curl https://api.github.com/repos/MetaCubeX/mihomo/releases|grep -oP "mihomo-linux-$CURL_MACHINE-v\d+\.\d+\.\d+"| sort -Vru | head -n 1)
       echo "Newest version found: $META_VERSION"
     elif [[ $beta == true ]];then
-      META_VERSION=$(curl https://api.github.com/repos/MetaCubeX/Clash.Meta/releases|grep -oP "clash\.meta-linux-$CURL_MACHINE-alpha-[0-9]+"| sort -Vru | head -n 1)
+      META_VERSION=$(curl https://api.github.com/repos/MetaCubeX/mihomo/releases|grep -oP "mihomo-linux-$CURL_MACHINE-alpha-[0-9]+"| sort -Vru | head -n 1)
       echo "Newest beta/rc version found: $META_VERSION"
       CURL_TAG=Prerelease-Alpha
     else
       echo -e "\033[1;31m\033[1mERROR:\033[0m beta type is not true or false.\nExiting."
     fi
     if [[ -z $CURL_TAG ]];then 
-      curl -o /tmp/$META_VERSION.gz -L https://github.com/MetaCubeX/Clash.Meta/releases/latest/download/$META_VERSION.gz
+      curl -o /tmp/$META_VERSION.gz -L https://github.com/MetaCubeX/mihomo/releases/latest/download/$META_VERSION.gz
     else
-      curl -o /tmp/$META_VERSION.gz -L https://github.com/MetaCubeX/Clash.Meta/releases/download/$CURL_TAG/$META_VERSION.gz
+      curl -o /tmp/$META_VERSION.gz -L https://github.com/MetaCubeX/mihomo/releases/download/$CURL_TAG/$META_VERSION.gz
     fi
     # gunzip /tmp/$META_VERSION.gz -C /tmp
     # cp -rf /tmp/clash.meta-linux-$CURL_MACHINE $binfile
