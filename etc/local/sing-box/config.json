@@ -1,0 +1,103 @@
+{
+    "log": {
+      "level": "info",
+      "timestamp": true
+    },
+    "dns": {
+      "rules": [
+        {
+          "disable_cache": true,
+          "geosite": "category-ads-all",
+          "server": "block"
+        },
+        {
+          "outbound": "bypass",
+          "server": "dnspod"
+        },
+        {
+          "outbound": "proxy",
+          "server": "cloudflare"
+        }
+      ],
+      "servers": [
+        {
+          "address": "https://1.1.1.1/dns-query",
+          "tag": "cloudflare"
+        },
+        {
+          "address": "https://1.12.12.12/dns-query",
+          "detour": "direct",
+          "tag": "dnspod"
+        },
+        {
+          "address": "rcode://success",
+          "tag": "block"
+        }
+      ],
+      "strategy": "prefer_ipv6"
+    },
+    "inbounds": [
+      {
+        "type": "mixed",
+        "listen": "::",
+        "listen_port": 1080,
+        "sniff": true,
+        "domain_strategy": "prefer_ipv6",
+        "set_system_proxy": false
+      }
+    ],
+    "outbounds": [
+      {
+        "type": "selector",
+        "tag": "proxy",
+        "outbounds": [
+          "clash","bypass"
+        ]
+      },
+      {
+        "type": "socks",
+        "tag": "clash",
+        "server": "127.0.0.1",
+        "server_port": 7890,
+        "version": "5",
+        "fallback_delay": "300ms"
+      },
+      {
+        "type": "direct",
+        "tag": "bypass"
+      },
+      {
+        "type": "block",
+        "tag": "block"
+      },
+      {
+        "type": "dns",
+        "tag": "dns-out"
+      }
+    ],
+    "route": {
+      "final": "proxy",
+      "rules": [
+        {
+          "protocol": "dns",
+          "outbound": "dns-out"
+        },
+        {
+          "geosite": "cn",
+          "geoip": ["private", "cn"],
+          "outbound": "bypass"
+        },
+        {
+          "domain": ["firebase.io", "crashlytics.com", "google-analytics.com"],
+          "geosite": "category-ads-all",
+          "outbound": "block"
+        }
+      ]
+    },
+    "experimental": {
+      "clash_api": {
+        "external_controller": "0.0.0.0:9091",
+        "store_selected": true
+      }
+    }
+  }
