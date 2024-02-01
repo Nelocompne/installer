@@ -5,6 +5,7 @@ set -e
 rootdir=/home/subc
 bindir=$rootdir/subconverter
 binfile=$bindir/subconverter
+PROXY=127.0.0.1:7890
 
 identify_the_operating_system_and_architecture() {
   if [[ "$(uname)" == 'Linux' ]]; then
@@ -64,12 +65,12 @@ identify_the_operating_system_and_architecture() {
   fi
 }
 
-wget_install() {
+curl_install() {
   [[ $MACHINE == amd64 ]] && CURL_MACHINE=linux64
   [[ $MACHINE == arm ]] && CURL_MACHINE=armv7
   [[ $MACHINE == arm64 ]] && CURL_MACHINE=aarch64
   [[ $MACHINE == s390x ]] && CURL_MACHINE=s390x
-  wget https://github.com/MetaCubeX/subconverter/releases/download/Alpha/subconverter_$CURL_MACHINE.tar.gz -O /tmp/subconverter_$CURL_MACHINE.tar.gz
+  curl -x $PROXY -L https://github.com/MetaCubeX/subconverter/releases/download/Alpha/subconverter_$CURL_MACHINE.tar.gz -o /tmp/subconverter_$CURL_MACHINE.tar.gz
   tar zxvf /tmp/subconverter.tar.gz -C $rootdir
   chmod +x $binfile
 }
@@ -80,7 +81,7 @@ fi
 
 if [ ! -f $binfile ]; then
   identify_the_operating_system_and_architecture
-  wget_install
+  curl_install
 fi
 
 exec $binfile "$@"

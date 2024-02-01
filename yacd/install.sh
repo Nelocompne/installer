@@ -7,10 +7,10 @@
 set -e
 # Initialize variables
 bindir=/home/yacd
+PROXY=127.0.0.1:7890
 
-
-wget_install() {
-  wget https://github.com/MetaCubeX/yacd/archive/gh-pages.zip -O /tmp/yacd.zip
+curl_install() {
+  curl -x $PROXY -L https://github.com/MetaCubeX/yacd/archive/gh-pages.zip -o /tmp/yacd.zip
   unzip /tmp/yacd.zip -d /tmp
   cp -r /tmp/Yacd-meta-gh-pages/* $bindir
 }
@@ -19,7 +19,7 @@ wget_install() {
 main() {
   mkdir -p $bindir
   rm -rf $bindir/*
-  wget_install
+  curl_install
 
   exit 0
 }

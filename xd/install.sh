@@ -7,10 +7,11 @@
 set -e
 # Initialize variables
 bindir=/home/xd
+PROXY=127.0.0.1:7890
 
 
-wget_install() {
-  wget https://github.com/MetaCubeX/metacubexd/releases/latest/download/compressed-dist.tgz -O /tmp/compressed-dist.tgz
+curl_install() {
+  curl -x $PROXY -L https://github.com/MetaCubeX/metacubexd/releases/latest/download/compressed-dist.tgz -o /tmp/compressed-dist.tgz
   tar zxvf /tmp/compressed-dist.tgz -C $bindir
 }
 
@@ -18,7 +19,7 @@ wget_install() {
 main() {
   mkdir -p $bindir
   rm -rf $bindir/*
-  wget_install
+  curl_install
 
   exit 0
 }

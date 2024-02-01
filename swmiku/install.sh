@@ -7,10 +7,10 @@
 set -e
 # Initialize variables
 bindir=/home/html
+PROXY=127.0.0.1:7890
 
-
-wget_install() {
-  wget https://github.com/WenqiOfficial/StudyWithMiku/archive/refs/heads/main.zip -O /tmp/miku.zip
+curl_install() {
+  curl -x $PROXY -L https://github.com/WenqiOfficial/StudyWithMiku/archive/refs/heads/main.zip -o /tmp/miku.zip
   unzip /tmp/miku.zip -d /tmp
   cp -r /tmp/StudyWithMiku-main/* $bindir
 }
@@ -19,7 +19,7 @@ wget_install() {
 main() {
   mkdir -p $bindir
   rm -rf $bindir/*
-  wget_install
+  curl_install
 
   exit 0
 }
