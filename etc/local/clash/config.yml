@@ -1,32 +1,21 @@
 mixed-port: 7890
 log-level: info
-mode: Rule # Global
+mode: Rule
 external-controller: 0.0.0.0:9090
 ipv6: true
-allow-lan: true
-# bind-address: "*"
 
 dns:
   enable: true
+  listen: '127.0.0.1:8853'
+  use-hosts: true
+  default-nameserver: [192.168.1.1, 223.5.5.5, 223.6.6.6, 180.184.1.1, 180.184.2.2, 119.29.29.29]
+  ipv6: false
   enhanced-mode: fake-ip
-  nameserver:
-    - https://1.12.12.12/dns-query
-    - https://1.1.1.1/dns-query
-    - 1.1.1.1
-    - 8.8.8.8
+  fake-ip-filter: []
+  nameserver: ['192.168.1.1', 'https://1.12.12.12/dns-query', 'https://120.53.53.53/dns-query', 'https://223.5.5.5/dns-query']
+  nameserver-policy: {}
   fallback: []
-  fake-ip-filter:
-    - +.stun.*.*
-    - +.stun.*.*.*
-    - +.stun.*.*.*.*
-    - +.stun.*.*.*.*.*
-    - "*.n.n.srv.nintendo.net"
-    - +.stun.playstation.net
-    - xbox.*.*.microsoft.com
-    - "*.*.xboxlive.com"
-    - "*.msftncsi.com"
-    - "*.msftconnecttest.com"
-    - WORKGROUP
+  fallback-filter: {}
 
 hosts:
 
@@ -318,30 +307,29 @@ rule-providers:
 
 rules:
 #  - RULE-SET,applications,BYPASS
-# time ↓
-  - DOMAIN,time.windows.com,BYPASS
-# time ↑
+  - DOMAIN,cp.cloudflare.com,Other
   - DOMAIN,clash.razord.top,BYPASS
   - DOMAIN,yacd.haishan.me,BYPASS
   - DOMAIN,clash.metacubex.one,BYPASS
   - DOMAIN,yacd.metacubex.one,BYPASS
   - DOMAIN,d.metacubex.one,BYPASS
 # steam ↓
-  - RULE-SET,steamip,BYPASS
   - RULE-SET,steamdomain,BYPASS
+  - RULE-SET,steamip,BYPASS
 # steam ↑
   - RULE-SET,private,DIRECT
   - RULE-SET,reject,REJECT
 # custom
   - RULE-SET,paypal,BYPASS
+  - RULE-SET,ehentai,load-balance
   - RULE-SET,bahamut,TW
+  - RULE-SET,patreon,US
+  - RULE-SET,twitch,US
   - RULE-SET,dmm,JP
   - RULE-SET,niconico,JP
-  - RULE-SET,ehentai,load-balance
   - RULE-SET,pixiv,JP
-  - RULE-SET,twitch,US
-  - RULE-SET,youtube,TW
   - RULE-SET,twitter,JP
+  - RULE-SET,youtube,TW
   - RULE-SET,instagram,HK
   - RULE-SET,facebook,HK
   - RULE-SET,telegramcidr,SG
