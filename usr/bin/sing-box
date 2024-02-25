@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+binfile=/home/sing-box/sing-box
+
+exec $binfile "$@"
