@@ -11,9 +11,10 @@ LOG="/var/log/daed/daed.log"
 start_service() {
         config_load "$CONF"
 
-        local enabled
-        config_get_bool enabled "config" "enabled" "0"
-        [ "$enabled" -eq "1" ] || return 1
+        #local enabled
+        #config_get_bool enabled "config" "enabled" "0"
+        #[ "$enabled" -eq "1" ] || return 1
+        # only luci app
 
         local listen_addr log_maxbackups log_maxsize
         config_get listen_addr "config" "listen_addr" "0.0.0.0:2023"
