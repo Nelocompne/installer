@@ -70,7 +70,7 @@ curl_install() {
   [[ $MACHINE == arm ]] && CURL_MACHINE=armv7
   [[ $MACHINE == arm64 ]] && CURL_MACHINE=aarch64
   [[ $MACHINE == s390x ]] && CURL_MACHINE=s390x
-  curl -x $PROXY -L https://github.com/MetaCubeX/subconverter/releases/download/Alpha/subconverter_$CURL_MACHINE.tar.gz -o /tmp/subconverter.tar.gz
+  curl -x $PROXY -L https://github.com/tindy2013/subconverter/releases/download/v0.8.1/subconverter_aarch64.tar.gz -o /tmp/subconverter.tar.gz
   tar zxvf /tmp/subconverter.tar.gz -C $rootdir
   chmod +x $binfile
 }
