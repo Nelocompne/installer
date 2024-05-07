@@ -75,6 +75,30 @@ proxy-groups:
     disable-udp: false
     strategy: round-robin
 
+  - name: "咕噜咕噜"
+    type: select
+    proxies:
+      - TW
+      - HK
+      - JP
+      - US
+      - SG
+
+  - name: "IWARA"
+    type: select
+    proxies:
+      - FR
+      - load-balance
+      - PROXY
+
+  - name: "FR"
+    type: url-test
+    filter: "法国|🇫🇷"
+    use:
+      - example
+    url: 'http://cp.cloudflare.com'
+    interval: 300
+
   - name: "HK"
     type: url-test
     filter: "香港"
@@ -313,13 +337,15 @@ rules:
   - DOMAIN,clash.metacubex.one,BYPASS
   - DOMAIN,yacd.metacubex.one,BYPASS
   - DOMAIN,d.metacubex.one,BYPASS
-# steam ↓
+# Steam登录（保证下载CDN最佳）
   - RULE-SET,steamdomain,BYPASS
   - RULE-SET,steamip,BYPASS
-# steam ↑
+# 个人前置
   - RULE-SET,private,DIRECT
   - RULE-SET,reject,REJECT
-# custom
+  - RULE-SET,google,咕噜咕噜
+# 个人自定义
+  - DOMAIN-SUFFIX,iwara.tv,IWARA
   - RULE-SET,paypal,BYPASS
   - RULE-SET,ehentai,load-balance
   - RULE-SET,bahamut,TW
@@ -333,11 +359,9 @@ rules:
   - RULE-SET,instagram,HK
   - RULE-SET,facebook,HK
   - RULE-SET,telegramcidr,SG
-# custom
+# 来自 Loyalsoldier 原始规则
   - RULE-SET,icloud,BYPASS
   - RULE-SET,apple,BYPASS
-  - RULE-SET,google,BYPASS
-  - RULE-SET,proxy,PROXY
   - RULE-SET,direct,BYPASS
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,BYPASS
